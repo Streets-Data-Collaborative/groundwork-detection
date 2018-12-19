@@ -39,6 +39,12 @@ ARGO project supervisor: Varun Adibhatla
 
 CUSP Students
 
+Team 1 - Detection of US street signage:
+- Yushi Chen, Karan Saini, Sung Hoon Yang
+
+Team 2- Detection and counting of Yellow Taxis on NYC streets:
+- Junjie Cai, Urwa Muaz, Manrique Vargas
+
 ### Operational Roles 
 - Project scribe: CUSP student who will take notes during check-in and manage the github repo (code,readme, issues)
 - Project logistics: CUSP student who ensures meetings are scheduled and handles conference/video calls.
