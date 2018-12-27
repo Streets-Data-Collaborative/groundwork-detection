@@ -1,6 +1,6 @@
 import os
 import unittest
-from Signage.src import GoogleStreetViewTask as GSVE
+from Signage.src.google_street_view_etl import GoogleStreetViewTask as GSVE
 import geopandas as gpd
 import numpy as np
 

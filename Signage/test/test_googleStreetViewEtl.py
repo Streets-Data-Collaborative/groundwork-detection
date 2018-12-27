@@ -1,5 +1,5 @@
 from unittest import TestCase
-from Signage.src import GoogleStreetViewEtl as GSVE
+from Signage.src.google_street_view_etl import GoogleStreetViewEtl as GSVE
 import geopandas as gpd
 import numpy as np
 
@@ -8,7 +8,7 @@ class TestGoogleStreetViewEtl(TestCase):
     @classmethod
     def _get_iter(cls):
         _st_shp = gpd.read_file(
-            "/Users/sunghoonyang/PycharmProjects/groundwork-detection/asset/geo_export_ed93e72f-6d55-4e70-b1a6-05df5dd171e7.shp")
+            "/Users/sunghoonyang/PycharmProjects/groundwork-detection/Signage/asset/geo_export_ce677b00-822e-465b-8b4f-aacaff026101.shp")
         mh_sts = \
             _st_shp[(_st_shp["borocode"] == "1") & (_st_shp["st_width"] > 20) & (_st_shp["st_width"] < 30)][
                 'geometry']
