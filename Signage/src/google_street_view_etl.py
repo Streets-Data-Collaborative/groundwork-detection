@@ -55,7 +55,7 @@ class GoogleStreetViewTask:
             try:
                 res.append(urlretrieve(_url, target_fn))
             except Exception as e:
-                logging.error('Coordinates %s, %s will be skipped. Retrying after one second delay: ' % (self.x, self.y) + str(e))
+                logging.error('Coordinates %s, %s will be skipped. Retrying after one second delay: ' % (str(self.x), str(self.y)) + str(e))
                 time.sleep(1)
                 _err_cnt += 1
                 if _err_cnt > 10: # TODO: Make this a variable not a hard-coded 10
@@ -70,6 +70,7 @@ class GoogleStreetViewEtl:
         """
         takes in an iterator of tuples of x, y coordinates
         :param it: an iterator (x, y) where x and y are floats(?)
+        :param target_dir: directory in which images will be written
         :return: 0 if program runs without an error
         """
         logging.basicConfig(
@@ -78,10 +79,12 @@ class GoogleStreetViewEtl:
             filemode='w',
             format='%(asctime)s %(message)s',
         )
-        logging.info('starting ETL...')
+        logging.info('Starting ETL @ %s...' % datetime.strftime(datetime.now(), '%Y-%m-%d %H:%M:%S'))
         for i, _t in enumerate(it):
             x, y = _t
             res = GoogleStreetViewTask(x, y, target_dir).get_imgs()
             print(res)
             if i % 1000 == 0:
                 logging.info('%d * 4 images downloaded' % i)
+
+        logging.info('Terminating ETL...')

@@ -12,7 +12,7 @@ class TestGoogleStreetViewEtl(TestCase):
         mh_sts = \
             _st_shp[(_st_shp["borocode"] == "1") & (_st_shp["st_width"] > 20) & (_st_shp["st_width"] < 30)][
                 'geometry']
-        for street in mh_sts.get_values():
+        for street in list(mh_sts.get_values()).__reversed__():
             for i in np.arange(0, len(street.xy[0]), 5):
                 x = street.xy[0][i]
                 y = street.xy[1][i]
