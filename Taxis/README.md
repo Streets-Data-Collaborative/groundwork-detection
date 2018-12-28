@@ -6,5 +6,5 @@ Then selected the images with taxis (around 60 images) and created a CustomVisio
 
 ![image](Taxis_Model.jpg)
 
-![image](Test_Model.jpg.jpg)
+![image](Test_Model.jpg)
 
