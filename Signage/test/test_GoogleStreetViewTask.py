@@ -1,6 +1,6 @@
 import os
 import unittest
-from Signage.src.google_street_view_etl import GoogleStreetViewTask as GSVE
+from Signage.src.google_street_view_etl import GoogleStreetViewTask as GSVT
 import geopandas as gpd
 import numpy as np
 
@@ -8,42 +8,35 @@ import numpy as np
 class MyGoogleStreetViewTaskTestCase(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        _st_shp = gpd.read_file(
-            "/Users/sunghoonyang/PycharmProjects/groundwork-detection/asset/geo_export_ed93e72f-6d55-4e70-b1a6-05df5dd171e7.shp")
-        mh_sts = \
-            _st_shp[(_st_shp["borocode"] == "1") & (_st_shp["st_width"] > 20) & (_st_shp["st_width"] < 30)][
-                'geometry']
-        cls.x, cls.y = None, None
-        for street in mh_sts.get_values()[range(10)]:
-            for i in np.arange(0, len(street.xy[0]), 5):
-                cls.x = street.xy[0][i]
-                cls.y = street.xy[1][i]
-                break
-            break
+        # Mock x, y coordinates
+        cls.x = -73.95899416299994
+        cls.y = 40.62788559400008
 
     def setUp(self):
-        self.gsve = GSVE(
+        self.gsvt = GSVT(
             MyGoogleStreetViewTaskTestCase.x
             , MyGoogleStreetViewTaskTestCase.y
-            , '/Users/sunghoonyang/PycharmProjects/groundwork-detection/tmp'
+            , '/Users/sunghoonyang/PycharmProjects/groundwork-detection/Signage/tmp/img'
+            , **{'puma': 3701, 'fov': [30, 90], 'heading': list(np.arange(0, 360, 45))}
         )
 
-    @unittest.skip('2018/12/26 13:28 PM;' +
+    @unittest.skip('2019/01/01 14:11 PM;' +
                    'init works;' +
                    'comment this out if __init__ method undergoes changes'
                    )
     def test_init(self):
-        gsve = GSVE(
+        gsvt = GSVT(
             MyGoogleStreetViewTaskTestCase.x
             , MyGoogleStreetViewTaskTestCase.y
-            , '/Users/sunghoonyang/PycharmProjects/groundwork-detection/tmp'
+            , '/Users/sunghoonyang/PycharmProjects/groundwork-detection/Signage/tmp/img'
+            , **{'puma': 3701, 'fov': [100, 200], 'heading': list(np.arange(0, 360, 8))}
         )
-        self.assertEquals(gsve._api_key, os.environ['GOOGLE_API_KEY'])
-        print(gsve._target_paths)
+        self.assertEquals(gsvt._api_key, os.environ['GOOGLE_API_KEY'])
+        self.assertEquals(gsvt.puma, str(3701))
 
     # @unittest.skip('')
     def test_get_imgs(self):
-        res = self.gsve.get_imgs()
+        res = self.gsvt.get_imgs()
         print(res)
 
 
