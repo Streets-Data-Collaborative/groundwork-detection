@@ -15,6 +15,6 @@ Code: See Here for the main method that ran the first iteration of ETL that gene
 
 
 ## Week2
-We imported images from Manhattan only
+We imported 9000 additional images from Manhattan only
 
 ### Methodology
