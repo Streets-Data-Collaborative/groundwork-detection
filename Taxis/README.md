@@ -17,7 +17,7 @@ Code: See [here](https://github.com/Streets-Data-Collaborative/groundwork-detect
 ## Week2
 We imported 9000 additional images from Manhattan only.
 This yielded the following results:
-![image](Model_Week_2_Manhattan.jpg)
+![image](Manhattan_Model.jpg)
 
 
 
