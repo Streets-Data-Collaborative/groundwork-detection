@@ -14,7 +14,7 @@ Code: See Here for the main method that ran the first iteration of ETL that gene
 ![image](Test_Model.jpg)
 
 
-Week2
+## Week2
 We imported images from Manhattan only
 
-Methodology
+### Methodology
