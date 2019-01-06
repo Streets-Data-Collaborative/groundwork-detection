@@ -1,0 +1,107 @@
+import numpy as np
+import pandas as pd
+import geopandas as gpd
+
+try:
+    from urllib import urlretrieve as urlretrieve
+except ImportError:
+    from urllib.request import urlretrieve as urlretrieve  
+
+import requests
+import os
+import json
+
+def extractOpenStreetCamImagesFromTrackID(trackID, imageDir):
+    '''
+    This function takes track ID and fetches all images in that track 
+    from OpenStreetCam and saves them into a new folder in the specified
+    directory.
+    '''
+    oscbaseurl = 'http://openstreetcam.org/details'
+    response = requests.post(oscbaseurl, data = {'id':trackID})
+    jsonData = json.loads(response.text)
+    photoData = jsonData['osv']['photos']
+    trackDir = imageDir + '/' + str(trackID)
+    if not os.path.isdir(trackDir):
+        os.mkdir(trackDir)
+    baseurl = 'https://openstreetcam.org'
+    [urlretrieve(baseurl +'/'+  p['name'], trackDir +'/'+ str(trackID) + '_' + p['fileName']) for p in photoData]
+
+
+## Function copied from https://github.com/Streets-Data-Collaborative/OpenStreetCam-GeoParsing-Tool/tree/master/scripts
+def getNearbytracks(lat, lng):
+    '''
+    This function takes a decimal degree latitude/longitude 
+    pair as two strings and returns nearby OpenStreetCam 
+    tracks as a list of sequence_ids.
+    '''
+    url = 'http://openstreetcam.org/nearby-tracks'
+    
+    sequence_ids = []
+    
+    # form data to be sent to API
+    data = {'lat': lat, 'lng': lng, 'distance': '5.0',
+           'myTracks': 'false', 'filterUserNames': 'false'}
+        
+    # sending post request and saving response as response object
+    r = requests.post(url=url, data=data)
+        
+    # extracting data in json format
+    extract = r.json()
+    
+    # if nearby tracks exist, store them in a list
+    try:
+        sequences = extract['osv']['sequences'] # indexes post request json with nearby tracks
+        for i in range(len(sequences)): 
+            sequence_ids.append(sequences[i]['sequence_id'])
+    except:
+        pass
+    
+    return sequence_ids
+
+
+def getGeoDataFrameFromShpFileZipUrl(url):
+    '''
+    This function downloads the zip file, unzips it into the dorectory 
+    pointed to by PUIdata environment variable. Then it 
+    reads it into a gepandas dataframe
+    '''
+    filenames = ! ls $PUIDATA | grep .shphf
+    urlretrieve(url, "file.gz")
+    os.system('unzip -d $PUIDATA '+'file.gz')
+    filenames2 = ! ls $PUIDATA | grep .shp
+    shapeFile = list(set(filenames2).difference(filenames))[0]
+    shapeFilePath = os.getenv('PUIDATA') + '/' + shapeFile
+    return gpd.GeoDataFrame.from_file(shapeFilePath)
+
+
+#Set environment variable
+os.environ["PUIDATA"] = '/home/urwa/PUI/PUIData'
+
+shpurl = 'https://data.cityofnewyork.us/api/geospatial/exjm-f27b?method=export&format=Shapefile'
+streets_shp = getGeoDataFrameFromShpFileZipUrl(shpurl)
+
+mh_streets = streets_shp[(streets_shp["borocode"]=="1") & \
+                         (streets_shp["st_width"]>20)&(streets_shp["st_width"]<30)]['geometry']
+print(mh_streets.shape)
+
+ 
+## extract all trackes in Manhattan
+t=0
+trackList=[]
+for street in mh_streets.get_values():
+    if t % 100 == 1:
+        print(t)
+    t += 1
+    for i in np.arange(0,len(street.xy[0]),5):
+        lon = street.xy[0][i]
+        lat = street.xy[1][i]
+        trackList += getNearbytracks(lat, lon)
+trackList = list(set(trackList))
+	
+# extract images
+for tid in trackList:
+    if tid not in ['525573']:
+        print(tid)
+        extractOpenStreetCamImagesFromTrackID(tid, 'Images')
+

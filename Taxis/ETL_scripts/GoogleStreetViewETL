@@ -1,0 +1,56 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import geopandas as gpd
+import shapely
+from fiona.crs import from_epsg
+from PIL import Image
+
+try:
+    from urllib import urlretrieve as urlretrieve
+except ImportError:
+    from urllib.request import urlretrieve as urlretrieve
+
+
+# set api key here
+api_key = 'YOUR KEY HERE'
+
+def getGeoDataFrameFromShpFileZipUrl(url):
+    '''
+    This function downloads the zip file, unzips it into the dorectory 
+    pointed to by PUIdata environment variable. Then it 
+    reads it into a gepandas dataframe
+    '''
+    filenames = ! ls $GWDATA | grep .shphf
+    urlretrieve(url, "file.gz")
+    os.system('unzip -d $GWDATA '+'file.gz')
+    filenames2 = ! ls $GWDATA | grep .shp
+    shapeFile = list(set(filenames2).difference(filenames))[0]
+    shapeFilePath = os.getenv('GWDATA') + '/' + shapeFile
+    return gpd.GeoDataFrame.from_file(shapeFilePath)
+
+#Set environment variable
+os.environ["GWDATA"] = '/home/urwa/PUI/PUIData'
+
+shpurl = 'https://data.cityofnewyork.us/api/geospatial/exjm-f27b?method=export&format=Shapefile'
+streets_shp = getGeoDataFrameFromShpFileZipUrl(shpurl)
+mh_streets = streets_shp[(streets_shp["borocode"]=="1") & \
+                         (streets_shp["st_width"]>20)&(streets_shp["st_width"]<30)]['geometry']
+print(mh_streets.shape)
+
+
+ImageDir = "Images2/"
+
+for street in mh_streets.get_values():
+    if t % 100 == 1:
+        print(t)
+    t += 1
+    for i in np.arange(0,len(street.xy[0]),5):
+        x = street.xy[0][i]
+        y = street.xy[1][i]
+        point = shapely.geometry.Point(x,y)
+        urlretrieve("https://maps.googleapis.com/maps/api/streetview?size=600x600&location="+str(point.y)+","+str(point.x)+"&fov=90&heading=90&pitch=10&key="+api_key, ImageDir+str(point.y)+"_"+str(point.x)+"_90.png")
+        urlretrieve("https://maps.googleapis.com/maps/api/streetview?size=600x600&location="+str(point.y)+","+str(point.x)+"&fov=90&heading=180&pitch=10&key="+api_key, ImageDir+str(point.y)+"_"+str(point.x)+"_180.png")
+        urlretrieve("https://maps.googleapis.com/maps/api/streetview?size=600x600&location="+str(point.y)+","+str(point.x)+"&fov=90&heading=270&pitch=10&key="+api_key, ImageDir+str(point.y)+"_"+str(point.x)+"_270.png")
+        urlretrieve("https://maps.googleapis.com/maps/api/streetview?size=600x600&location="+str(point.y)+","+str(point.x)+"&fov=90&heading=360&pitch=10&key="+api_key, ImageDir+str(point.y)+"_"+str(point.x)+"_360.png")
+
+
