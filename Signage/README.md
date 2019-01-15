@@ -23,4 +23,11 @@
         * pitch - iterable.
         * heading - iterable.
     3. Image ETL: Photos are downloaded under [img](https://drive.google.com/open?id=1Sog0WTiPbTqZGdw25prTe2EDtQwfMsCG)/{PUMA_ID}
-            
+
+# Week3
+* Duke and Amber designed the [first iteration](https://github.com/Streets-Data-Collaborative/groundwork-detection/blob/master/Signage/nb/neighborhood_metric_benchmark.ipynb) of collecting neighborhood specific metrics with four tag categories
+   * Regulartory
+   * Info
+   * Guide
+   * Warning
+   
