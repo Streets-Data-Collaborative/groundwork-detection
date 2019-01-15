@@ -46,15 +46,17 @@ class GoogleStreetViewTask:
         self.y = y
         self.target_dir = target_dir
         """
+        Setting Spatial Demarcation to categorize the images with respect to the source area (e.g. PUMA, Neighborhood)
         An Empty string is the default value 
         This is compatible with os.path.join()"
             os.path.join('x', '', 'y')
             Out[34]: 
             'x/y'
         """
-        self.puma = ''
-        if 'puma' in kwargs.keys():
-            self.puma = str(kwargs['puma'])
+
+        self.demarcation = ''
+        if 'demarcation' in kwargs.keys():
+            self.demarcation = str(kwargs['demarcation'])
 
         """
         Below arguments will be used to create n-d permutation of 
@@ -88,7 +90,7 @@ class GoogleStreetViewTask:
             )
             target_dir = os.path.join(
                 self.target_dir
-                , self.puma
+                , self.demarcation
             )
             target_fn = os.path.join(
                 target_dir
@@ -106,8 +108,8 @@ class GoogleStreetViewTask:
                     str(self.x), str(self.y)) + str(e))
                 time.sleep(1)
                 _err_cnt += 1
-                if _err_cnt > 10:  # TODO: Make this a variable not a hard-coded 10
-                    raise e
+                # if _err_cnt > 10:  # TODO: Make this a variable not a hard-coded 10
+                #     raise e
                 continue
         return res
 
@@ -139,7 +141,7 @@ class GoogleStreetViewEtl:
 
             _ = GoogleStreetViewTask(x, y, target_dir, **kwargs).get_imgs()
             if i % 1000 == 0:
-                logging.info('%d * 4 images downloaded' % i)
+                logging.info('%d coordinates processed' % i)
 
         logging.info('Terminating ETL...')
         return 0

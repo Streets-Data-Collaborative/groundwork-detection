@@ -32,7 +32,7 @@ class MyGoogleStreetViewTaskTestCase(unittest.TestCase):
             , **{'puma': 3701, 'fov': [100, 200], 'heading': list(np.arange(0, 360, 8))}
         )
         self.assertEquals(gsvt._api_key, os.environ['GOOGLE_API_KEY'])
-        self.assertEquals(gsvt.puma, str(3701))
+        self.assertEquals(gsvt.demarcation, str(3701))
 
     # @unittest.skip('')
     def test_get_imgs(self):
