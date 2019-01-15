@@ -1,3 +1,4 @@
+import logging
 from unittest import TestCase
 from Signage.src.google_street_view_etl import GoogleStreetViewEtl as GSVE
 import geopandas as gpd
@@ -24,12 +25,27 @@ class TestGoogleStreetViewEtl(TestCase):
             r"/Users/sunghoonyang/Google Drive/Argo/groundwork-detection/intersection_dta/StreetsOnlyGCSNA1983/OnStreetOnlyGCSNA1983.shp")
         # random sampling from the population of intersection coordinates
         # in the below set up each coordinate pair will create 6 * 2 = 12 images
-        _x_shp = _raw.loc[random.sample(range(0, _raw.size), 2000), :]
+        _x_shp = _raw.loc[random.sample(range(0, _raw.size), int(1e4)), :]
         for ix, _row in _x_shp.iterrows():
             puma, pt = _row
             if pt is np.nan:
+                logging.warning('Point is np.nan. Skipping...')
                 continue
-            yield pt.x, pt.y, {'puma': puma, 'fov': [30, 90], 'heading': list(np.arange(0, 360, 60))}
+            yield pt.x, pt.y, {'demarcation': puma, 'fov': [30, 90], 'heading': list(np.arange(0, 360, 60))}
+
+    @classmethod
+    def _get_nh_iter(cls):
+        _raw = gpd.read_file(
+            r"/Users/sunghoonyang/Google Drive/Argo/groundwork-detection/intersection_dta/20190114 Neighborhood Intersections/neighborhood_intersections.shp")
+        # random sampling from the population of intersection coordinates
+        # in the below set up each coordinate pair will create 6 * 2 = 12 images
+        _x_shp = _raw.loc[random.sample(range(0, _raw.size), int(1e4)), :]
+        for ix, _row in _x_shp.iterrows():
+            nh, pt = _row
+            if pt is np.nan:
+                logging.warning('Point is np.nan. Skipping...')
+                continue
+            yield pt.x, pt.y, {'demarcation': nh, 'fov': [30, 90], 'heading': list(np.arange(0, 360, 60))}
 
     def test_iter_work(self):
         GSVE.work(
@@ -41,4 +57,10 @@ class TestGoogleStreetViewEtl(TestCase):
         GSVE.work(
             TestGoogleStreetViewEtl._get_puma_iter()
             , r'/Users/sunghoonyang/Google Drive/Argo/groundwork-detection/img'
+        )
+
+    def test_nh_iter_work(self):
+        GSVE.work(
+            TestGoogleStreetViewEtl._get_nh_iter()
+            , r'/Users/sunghoonyang/Google Drive/Argo/groundwork-detection/img/neighborhood-images/'
         )
