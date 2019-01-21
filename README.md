@@ -1,8 +1,8 @@
 # groundwork-detection
-ARGO internship project to use http://customvision.ai to detect features from US Street imager
+ARGO internship project to use http://customvision.ai to detect features from Urban street imagery.
 
 ## Why
-Small improvements in "Maintenance, management of state assets and public-sector accounting", [according to a recent Economist op-ed](https://www.economist.com/leaders/2018/10/20/large-economic-gains-can-come-from-mundane-improvements-in-policy)  could lead to large economic gains for cities, states, and entire nations.
+[According to a recent Economist op-ed](https://www.economist.com/leaders/2018/10/20/large-economic-gains-can-come-from-mundane-improvements-in-policy), small improvements in "Maintenance, management of state assets and public-sector accounting", could lead to large economic gains for cities, states, and entire nations.
 
 We believe that local and state governments should be capable of auditing the urban environment using common-sense digital tools and leveraging advances in machine learning, responsibly towards the next-generation of Maintenance, management of state assets and public-sector accounting.
 
