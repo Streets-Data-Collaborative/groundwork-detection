@@ -29,7 +29,7 @@ Use http://customvision.ai - an easy-to-use computer vision toolkit developed by
 - Test the accuracy of your trained model.
 - Iterate towards better precision and recall.
 
-### Week 3 - Results
+### Week 3 and beyond - Results
 - Parse results from customvision output into a more readable format.
 - Deploy your trained model to "audit" a specific geography. (For consistency, we will choose this area for you).
 - Prepare blog to document your journey. What worked, What did not. Ideas for future improvement / applications etc.
