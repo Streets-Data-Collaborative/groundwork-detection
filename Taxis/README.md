@@ -1,5 +1,7 @@
 # Team 2 - Yellow Taxis.
 
+Medium Article: https://medium.com/streets-data-collaborative-groundwork-team-2/91220c1f2b1
+
 ## Week 1
 Junjie worked on customvision model.
 Urwa worked to import images from google drive path
@@ -14,10 +16,8 @@ Code: See [here](https://github.com/Streets-Data-Collaborative/groundwork-detect
 ![image](Test_Model.jpg)
 
 
-## Week2
+## Week 2
 We imported 9000 additional images from Manhattan only.
 This yielded the following results:
 ![image](Manhattan_Model.jpg)
-
-
 
