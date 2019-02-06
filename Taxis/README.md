@@ -21,3 +21,10 @@ We imported 9000 additional images from Manhattan only.
 This yielded the following results:
 ![image](Manhattan_Model.jpg)
 
+## Week 3
+
+We finnaly created a script with both ETL with custom-vision model.
+
+The custom-vision model was pre-trained during weeks 1 and 2.
+
+Scripts were developed to upload images from Google-Street-View and Open-Street-Camera and uploaded them to the Custom-Vision pre-trained model. Then we mapped and counted the number of taxis in determined locations.
