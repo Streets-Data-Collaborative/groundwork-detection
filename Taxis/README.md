@@ -2,7 +2,7 @@
 
 Medium Article: https://medium.com/streets-data-collaborative-groundwork-team-2/91220c1f2b1
 
-# Custom Vision 
+# Count Taxis - ETL and Computer Vision Steps
 
 The steps are summarized below:
 
