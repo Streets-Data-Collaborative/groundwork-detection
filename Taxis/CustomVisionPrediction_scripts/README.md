@@ -1,4 +1,22 @@
-# Custom Vision Prediction
+# Custom Vision 
+
+The steps are summarized below:
+
+1. First we extracted images from Open-Street-Cam and GoogleStreet View using the ETL scripts. 
+2. Then trained the Custom Vision model manually directly on https://www.customvision.ai/projects and, 
+3. Finally developed a script to analyze new images by calling the pre-trained model using the parameters below (see github Custom-vision script):
+
+## Custom Vision parameters
+Prediction_Key = 'd523a599e7f845e6b0af872a5cfa4698'
+Content_Type = 'application/octet-stream'
+__PRED_URL__ = 'https://southcentralus.api.cognitive.microsoft.com/customvision/v2.0/' \
+  + 'Prediction/6f366357-d7dc-4b0e-a6fe-e61984f90bad/image?iterationId=473dfffd-c1d0-4bca-b679-a6b47620c5ad'
+
+
+# More about Custom Vision ...
+
+If you want to create your own Custom Vision model, you can train your own model using the indications below:
+
 - [**CustomVisionPrediction_ image.ipynb**](https://github.com/Streets-Data-Collaborative/groundwork-detection/blob/master/Taxis/CustomVisionPrediction_scripts/CustomVisionPrediction_%20image.ipynb) detects objects using Custom Vision API, returns the Custom Vision prediction result in json format.
 
 ---
