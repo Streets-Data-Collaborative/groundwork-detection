@@ -2,29 +2,11 @@
 
 Medium Article: https://medium.com/streets-data-collaborative-groundwork-team-2/91220c1f2b1
 
-## Week 1
-Junjie worked on customvision model.
-Urwa worked to import images from google drive path
-We then downloaded around 9000 images in New York from Google Street View API.
-And we selected the images with yellow taxis (around 60 images) and created a CustomVision Detection project:
+# Custom Vision 
 
-Source Images: https://drive.google.com/drive/folders/1-lAv1a88I2xa7sIM1EEWjWJD85ZX2yEP
-Code: See [here](https://github.com/Streets-Data-Collaborative/groundwork-detection/blob/ca46f5d7589762a750296e8367a1277ed0aabeeb/Signage/test/test_googleStreetViewEtl.py) for the main method that ran the first iteration of ETL that generated above images
+The steps are summarized below:
 
-![image](Taxis_Model.jpg)
-
-![image](Test_Model.jpg)
-
-
-## Week 2
-We imported 9000 additional images from Manhattan only.
-This yielded the following results:
-![image](Manhattan_Model.jpg)
-
-## Week 3
-
-We finnaly created a script with both ETL with custom-vision model.
-
-The custom-vision model was pre-trained during weeks 1 and 2.
-
-Scripts were developed to upload images from Google-Street-View and Open-Street-Camera and uploaded them to the Custom-Vision pre-trained model. Then we mapped and counted the number of taxis in determined locations.
+1. First we extracted images from Open-Street-Cam and GoogleStreet View using the ETL [scripts](https://github.com/Streets-Data-Collaborative/groundwork-detection/tree/master/Taxis/ETL_scripts). 
+2. Then trained the Custom Vision model manually directly on https://www.customvision.ai/projects and, 
+3. Finally developed a script to analyze new images by calling the pre-trained model using the parameters below (see github [Custom-vision script](https://github.com/Streets-Data-Collaborative/groundwork-detection/blob/master/Taxis/CustomVisionPrediction_scripts/Cab_Counting_Neighborhoods.ipynb).
+The  Custom-vision script extracts Google images based on the imported shape file. So if someone wants to use the  Custom-vision script (from step 3) on another geography, you would have to edit the script and import the appropriate shape files.
